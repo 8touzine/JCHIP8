@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+
+<AnchorPane prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.touzin8.jchip8.Display">
+    <children>
+        <StackPane fx:id="canvCont" layoutX="23.0" layoutY="10.0" prefHeight="386.0" prefWidth="650.0" styleClass="conv-cont">
+            <Canvas fx:id="convaZER" height="320.0" layoutX="47.0" layoutY="20.0" width="640.0" />
+        </StackPane>
+        <Button layoutX="39.0" layoutY="353.0" mnemonicParsing="false" text="switch back" />
+        <Button layoutX="139.0" layoutY="353.0" mnemonicParsing="false"  text="Clear"  />
+        <Button layoutX="239.0" layoutY="353.0" mnemonicParsing="false" text="Circle" />
+        <Button layoutX="319.0" layoutY="353.0" mnemonicParsing="false"
+                text="Hollow Circle" />
+        <Button layoutX="455.0" layoutY="353.0" mnemonicParsing="false"  text=" anime Circle" />
+        <Button layoutX="575.0" layoutY="353.0" mnemonicParsing="false"  text=" draw ligne " />
+    </children>
+</AnchorPane>

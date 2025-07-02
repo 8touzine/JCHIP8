@@ -1,0 +1,25 @@
+.root{
+    -fx-background-color: #EEAECA;
+    -fx-background-color:  radial-gradient(focus-angle 0deg,
+    focus-distance 0%,
+    center 50% 50%,
+    radius 50%,
+    #eeaeca 0%,
+    #94bbe9 100%
+    );
+}
+
+#circleZer {
+    /* -fx-box-shadow: -1px 5px 128px 41px rgba(6,139,168,0.84); */
+    -fx-effect: dropshadow(three-pass-box, rgba(6,139,168,0.84), 10, 0, 0, 0);
+}
+/* #btnTestZER {
+    back
+} */
+
+.button{
+    -fx-background-color: rgba(255,200,255,1);
+}
+.conv-cont{
+    -fx-background-color: rgb(75,25,50);
+}
