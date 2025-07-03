@@ -65,7 +65,7 @@ public class Display implements DisplayPort {
 
 
     @Override
-    public void clear() {
+    public void clear(int[][] frameBuffer) {
         for(int [] row: frameBuffer){
             Arrays.fill(row, 0);//pour chaque rander grid[x] on remplit tout de 0
         }

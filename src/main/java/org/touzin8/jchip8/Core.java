@@ -1,24 +1,40 @@
 package org.touzin8.jchip8;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+
 public class Core {
     private final Memory memzer;
     private final DisplayPort display;
     private int X;
     private int Y;
     private int opcode;
+    private Timeline timeline;
 
-    public static final int screen_width = 64;
-    public static final int screen_heigth = 32;
-    private int[][] frameBuffer = new int[screen_width][screen_heigth];
 
     public Core(Memory mem, DisplayPort dis){
         memzer = mem;
         display = dis;
     }
 
-    public void cycle(){
-        opcode =  memzer.fetchOpcode();
-        decodeOpcode();
+    public void load(String romPath){
+        memzer.loadROM(romPath);
+        memzer.loadFontset();
+    }
+
+    public void mainLoop(){
+        //60 par sec
+        Duration frameDuration = Duration.millis(1000.0 / 60); //64Hz
+       timeline = new Timeline(new KeyFrame(frameDuration, event -> {
+            opcode =  memzer.fetchOpcode();
+            decodeOpcode();
+        }));
+    timeline.play();
+    }
+
+    public void stop(){
+    timeline.stop();
     }
 
     /////////
@@ -37,7 +53,7 @@ public class Core {
                 switch (opcode & 0x000F){
                     case 0x0000:
                         //clear screen
-
+                        display.clear(memzer.getFrameBuffer());
                         break;
                     case 0x000E:
                         memzer.returnFromSubroutine();
@@ -45,68 +61,70 @@ public class Core {
                 }
                 break;
             case 0x1000:
-                memzer.jumpToAddres();
+                memzer.jumpToAddres(opcode);
                 break;
             case 0x2000:
-                memzer.callSubRoutine();
+                memzer.callSubRoutine(opcode);
             case 0x3000:
-                memzer.skipNext1();
+                memzer.skipNext1(opcode);
                 break;
 
             case 0x4000:
-                memzer.skipNext2();
+                memzer.skipNext2(opcode);
                 break;
             case 0x5000:
-                memzer.skipNext3();
+                memzer.skipNext3(opcode);
                 break;
             case 0x6000:
-                memzer.setVxToVn();
+                memzer.setVxToVn(opcode);
                 break;
             case 0x7000:
-                memzer.addNnToVx();
+                memzer.addNnToVx(opcode);
                 break;
             case 0x8000:
-                memzer.vx8FFFF();
+                memzer.vx8FFFF(opcode);
                 break;
             case 0x9000:
-                memzer.op9FFF();
+                memzer.op9FFF(opcode);
                 break;
             case 0xA000:
-                memzer.opAFFF();
+                memzer.opAFFF(opcode);
                 break;
             //TODO: continuer les opcodes BNNN
             case 0xB000:
-                memzer.opBFFF();
+                memzer.opBFFF(opcode);
                 break;
             case 0xC000:
-                memzer.opCFFF();
+                memzer.opCFFF(opcode);
             case 0xD000:
-                memzer.opDFFF();
+                //memzer.opDFFF();
+                int N = opcode & 0x00F;//hight of sprite
+                display.draw(memzer.getFrameBuffer());
             case 0xE000:
-                memzer.opEFFF();
+                memzer.opEFFF(opcode);
                 break;
             case 0xF000:
                 switch (opcode & 0x00FF){
                     case 0x0007:
-                        memzer.opFF07();
+                        memzer.opFF07(opcode);
                         break;
                     case 0x000A:
-                        memzer.opFF0A();
+                        memzer.opFF0A(opcode);
                         break;
                     case 0x001E:
-                        memzer.opFF1E();
+                        memzer.opFF1E(opcode);
                         break;
                     case 0x0029:
-                        memzer.opFF29();
+                        memzer.opFF29(opcode);
                         break;
                     case 0x0033:
-                        memzer.opFF33();
+                        memzer.opFF33(opcode);
                         break;
                     case 0x0055:
-                        memzer.opFF55();
+                        memzer.opFF55(opcode);
                         break;
                     case 0x0065:
-                        memzer.opFF65();
+                        memzer.opFF65(opcode);
                         break;
                 }
             default:
