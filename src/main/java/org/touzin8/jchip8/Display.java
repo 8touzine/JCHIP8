@@ -10,12 +10,12 @@ import java.util.Arrays;
 public class Display implements DisplayPort {
 
 
-    static GraphicsContext gc;
+    GraphicsContext gc;
     private int _height = 32;
     private int _width = 64;
     private int _pixelSze;
-    private Memory memory = new Memory();
-    int[][] frameBuffer = new int[_width][_height];
+    //int[][] frameBuffer = new int[_width][_height];
+
     @FXML
     private Canvas convaZER;
 
@@ -27,61 +27,13 @@ public class Display implements DisplayPort {
         //gc.fillRect(75, 75, 100, 100);
         gc.fillRect(75, 75, _pixelSze, _pixelSze);
         //draw = new Drawer(_height, _width, _pixelSze);
-        memory.setDisplay(this);
     }
-
-    public void clearCanvas(int[][] frameBuffer){
-        for(int [] row: frameBuffer){
-            Arrays.fill(row, 0);//pour chaque rander grid[x] on remplit tout de 0
-        }
-
-        for(var y = 0;y < _height;y++ ){
-            for(var x = 0; x < _width;x++){
-                if(frameBuffer[x][y] == 1){
-                    //x la taille du pixel pour la reso
-                    gc.setFill(Color.rgb(75,25,50));
-                    gc.fillRect(x * _pixelSze, y * _pixelSze, _pixelSze, _pixelSze);
-                }else{
-                    gc.setFill(Color.rgb(175,125,150));
-                    gc.fillRect(x * _pixelSze, y * _pixelSze, _pixelSze, _pixelSze);
-                }
-            }
-        }
-    }
-    public void render(int[][] framebuffer){
-        for(var y = 0;y < _height;y++ ){
-            for(var x = 0; x < _width;x++){
-                if(framebuffer[x][y] == 1){
-                    //x la taille du pixel pour la reso
-                    gc.setFill(Color.rgb(75,25,50));
-                    gc.fillRect(x * _pixelSze, y * _pixelSze, _pixelSze, _pixelSze);
-                }else{
-                    gc.setFill(Color.rgb(175,125,150));
-                    gc.fillRect(x * _pixelSze, y * _pixelSze, _pixelSze, _pixelSze);
-                }
-            }
-        }
-    }
-
-
     @Override
     public void clear(int[][] frameBuffer) {
         for(int [] row: frameBuffer){
             Arrays.fill(row, 0);//pour chaque rander grid[x] on remplit tout de 0
         }
-
-        for(var y = 0;y < _height;y++ ){
-            for(var x = 0; x < _width;x++){
-                if(frameBuffer[x][y] == 1){
-                    //x la taille du pixel pour la reso
-                    gc.setFill(Color.rgb(75,25,50));
-                    gc.fillRect(x * _pixelSze, y * _pixelSze, _pixelSze, _pixelSze);
-                }else{
-                    gc.setFill(Color.rgb(175,125,150));
-                    gc.fillRect(x * _pixelSze, y * _pixelSze, _pixelSze, _pixelSze);
-                }
-            }
-        }
+        draw(frameBuffer);
     }
 
     @Override

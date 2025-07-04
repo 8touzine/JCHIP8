@@ -28,8 +28,14 @@ public class Core {
         Duration frameDuration = Duration.millis(1000.0 / 60); //64Hz
        timeline = new Timeline(new KeyFrame(frameDuration, event -> {
             opcode =  memzer.fetchOpcode();
-            decodeOpcode();
+            decodeOpcode(opcode);
+            memzer.tickTimers();
+            if(memzer.isDrawFlag()){
+                display.draw(memzer.getFrameBuffer());
+                memzer.setDrawFlag(false);
+            }
         }));
+    timeline.setCycleCount(Timeline.INDEFINITE);
     timeline.play();
     }
 
@@ -38,22 +44,28 @@ public class Core {
     }
 
     /////////
-    public void decodeOpcode(){
+    public void decodeOpcode(int opcode){
         //composition du opcode
         //todo: ici c'est une fonction fetch
         ///var opcode = memory[PC] << 8 | memory[PC + 1];
 
         //checker quel opcode: 0xX000 avec le filtre 0xF000
-        X = (opcode & 0x0F00) >> 8;
-        Y = (opcode & 0x00F0) >> 4;
+//        X = (opcode & 0x0F00) >> 8;
+//        Y = (opcode & 0x00F0) >> 4;
         //todo voici le decode qui se fera dans le core
+        System.out.println("pc: " + memzer.getPC() + " opcode: " + opcode);
+        System.out.println(opcode & 0xF000);
         switch (opcode & 0xF000) {
             case 0x0000:
                 // y a 2 opcode qui commencnt avec 0x0 -> 0x00E0 et 0x00EE
                 switch (opcode & 0x000F){
                     case 0x0000:
                         //clear screen
+                        memzer.clearFrame();
                         display.clear(memzer.getFrameBuffer());
+                        memzer.setDrawFlag(true);
+                        var newPC = memzer.getPC();
+                        memzer.setPC(newPC += 2);
                         break;
                     case 0x000E:
                         memzer.returnFromSubroutine();
@@ -65,10 +77,10 @@ public class Core {
                 break;
             case 0x2000:
                 memzer.callSubRoutine(opcode);
+                break;
             case 0x3000:
                 memzer.skipNext1(opcode);
                 break;
-
             case 0x4000:
                 memzer.skipNext2(opcode);
                 break;
@@ -90,16 +102,15 @@ public class Core {
             case 0xA000:
                 memzer.opAFFF(opcode);
                 break;
-            //TODO: continuer les opcodes BNNN
             case 0xB000:
                 memzer.opBFFF(opcode);
                 break;
             case 0xC000:
                 memzer.opCFFF(opcode);
+                break;
             case 0xD000:
-                //memzer.opDFFF();
-                int N = opcode & 0x00F;//hight of sprite
-                display.draw(memzer.getFrameBuffer());
+               memzer.opD000(opcode);
+               break;
             case 0xE000:
                 memzer.opEFFF(opcode);
                 break;
@@ -107,6 +118,12 @@ public class Core {
                 switch (opcode & 0x00FF){
                     case 0x0007:
                         memzer.opFF07(opcode);
+                        break;
+                    case 0x0015:
+                        memzer.opFF15(opcode);
+                        break;
+                    case 0x0018:
+                        memzer.opFF18(opcode);
                         break;
                     case 0x000A:
                         memzer.opFF0A(opcode);
@@ -127,6 +144,7 @@ public class Core {
                         memzer.opFF65(opcode);
                         break;
                 }
+                break;
             default:
                 System.out.println("Unknown opcode: " + opcode);
                 break;
