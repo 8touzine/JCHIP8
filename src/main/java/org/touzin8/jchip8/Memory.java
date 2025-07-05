@@ -26,19 +26,19 @@ public class Memory {
     private int sp;
     private byte[] key;
     private byte[] fontset;
-    private boolean waitingKey = false;
+    private boolean waitingKey;
     private int awaitingRegister;
 
 
     public static final int screen_width = 64;
     public static final int screen_heigth = 32;
     private int[][] frameBuffer = new int[screen_width][screen_heigth];
-    private Display display;
     private boolean drawFlag;
 
 
     public Memory(){
         this.memory = new byte[4096];
+        this.waitingKey = false;
         this.PC = 0x200;
         this.sp = 0;
         this.IR = 0;
@@ -53,11 +53,6 @@ public class Memory {
     public void loadFontset(){
         loadToMemory(fontset, 0);
     }
-
-    public void loadDisplay(Display display){
-        this.display = display;
-    }
-
 
 
     public void loadROM(String path){
@@ -126,6 +121,7 @@ public class Memory {
         int[][] buffer = frameBuffer;
         //todo impiment DXYN pour affichier la sprint a (X,Y) et a N pixel d'hauteur (framebuffer dans onenote)
         V[0xF] = 0; //todo comprendre (collision)
+        System.out.println("Draw at x= " +x + "y= " + y +" n= " + n + "  IR= " + IR);
         for(var row = 0; row < n; row++){ //la hauteur
             var spriteByte = memory[IR + row] & 0xFF; // IR ou on se trouve(fonctionnement opcode)
             // exemple de sprite (row) : Sprite : 0b11110000  (donc 4 pixels allumés à gauche)
@@ -166,6 +162,7 @@ public class Memory {
 
     public void opFF0A(int opcode) {
         //attendre qu'une key soit pressé
+        System.out.println("FFOA!!!!!!!!!!");
         var X = (opcode & 0x0F00) >>8;
         waitingKey = true;
         awaitingRegister = X; // pour indiquer ou est-ce qu'on attend le key
@@ -174,6 +171,7 @@ public class Memory {
 
     public void setKey(int index, boolean pressed){
         //pour lire les touche appuyé, et utilisé si besoin (awaiting)
+        System.out.println("index: " + index + "pressed: " + pressed);
         key[index] = (byte)(pressed ? 1 : 0);//donc si la touche a cette index est pressé, 1
         if(waitingKey && pressed){
             V[awaitingRegister] = (byte)index;
@@ -230,12 +228,6 @@ public class Memory {
                 PC +=2;
                 break;
         }
-    }
-
-    public void opDFFF() {
-        //javafx ou jpanel jframe
-        //displayPort draw()
-        PC += 2;
     }
 
     public void opCFFF(int opcode) {
@@ -313,7 +305,7 @@ public class Memory {
         //0x7000
         var X = (opcode & 0x0F00) >> 8;
         int NN = opcode & 0x00FF;
-        V[X] += (byte)((V[X] & 0xFF) + NN);
+        V[X] = (byte)((V[X] & 0xFF) + NN);
         PC += 2;
     }
 
@@ -321,7 +313,7 @@ public class Memory {
         //0x6000
         var X = (opcode & 0x0F00) >> 8;
         var NN = opcode & 0x00FF;
-        V[X] = (byte)((V[X] & 0xFF) + NN); // convertir en byte
+        V[X] = (byte)NN; // convertir en byte
         PC += 2;
     }
 
@@ -367,7 +359,7 @@ public class Memory {
     public void callSubRoutine(int opcode) {
         //0x2000
         //appeller une subroutine
-        stack[sp] = PC;// pour y revenir si on appelle 0xA000
+        stack[sp] = PC + 2;// pour y revenir si on appelle 0xA000
         sp++;
         PC = opcode & 0x0FFF; // on assigne la valeur de NNN du 0x2NNN au PC
     }
@@ -389,6 +381,6 @@ public class Memory {
         for(int x=0; x<screen_width; x++) {
             Arrays.fill(frameBuffer[x], 0);
         }
-        drawFlag = true;
+        drawFlag= true;
     }
 }

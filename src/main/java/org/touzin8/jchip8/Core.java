@@ -19,16 +19,24 @@ public class Core {
     }
 
     public void load(String romPath){
-        memzer.loadROM(romPath);
         memzer.loadFontset();
+        memzer.loadROM(romPath);
+
     }
 
     public void mainLoop(){
         //60 par sec
         Duration frameDuration = Duration.millis(1000.0 / 60); //64Hz
        timeline = new Timeline(new KeyFrame(frameDuration, event -> {
-            opcode =  memzer.fetchOpcode();
-            decodeOpcode(opcode);
+           if(memzer.isWaitingKey()){
+                System.out.println("awaiting key");
+               return;
+           } //ne rien faire si il attend une touche
+            for(int i = 0;i<10;i++){//sinon trop lent
+                opcode =  memzer.fetchOpcode();
+                decodeOpcode(opcode);
+            }
+
             memzer.tickTimers();
             if(memzer.isDrawFlag()){
                 display.draw(memzer.getFrameBuffer());
@@ -53,22 +61,26 @@ public class Core {
 //        X = (opcode & 0x0F00) >> 8;
 //        Y = (opcode & 0x00F0) >> 4;
         //todo voici le decode qui se fera dans le core
-        System.out.println("pc: " + memzer.getPC() + " opcode: " + opcode);
-        System.out.println(opcode & 0xF000);
+      System.out.println("pc: " + memzer.getPC() +" opcode: " + Integer.toHexString(opcode));
+      //System.out.println("pc: " + memzer.getPC());
         switch (opcode & 0xF000) {
             case 0x0000:
                 // y a 2 opcode qui commencnt avec 0x0 -> 0x00E0 et 0x00EE
                 switch (opcode & 0x000F){
                     case 0x0000:
                         //clear screen
-                        memzer.clearFrame();
-                        display.clear(memzer.getFrameBuffer());
-                        memzer.setDrawFlag(true);
-                        var newPC = memzer.getPC();
-                        memzer.setPC(newPC += 2);
+                       memzer.clearFrame();
+                       System.out.println("cleeaaar");
+                        //display.clear(memzer.getFrameBuffer());
+                       // memzer.setDrawFlag(true);
+                        memzer.setPC(memzer.getPC() + 2);
                         break;
                     case 0x000E:
                         memzer.returnFromSubroutine();
+                        break;
+                    default:
+                        System.out.println("Unknown opcode: " + opcode);
+                        memzer.setPC(memzer.getPC() + 2);
                         break;
                 }
                 break;
@@ -128,6 +140,10 @@ public class Core {
                     case 0x000A:
                         memzer.opFF0A(opcode);
                         break;
+                    case 0x000E:
+                        System.out.println("Unknown opcode:" + opcode);
+                        memzer.setPC(memzer.getPC() + 2);
+                        break;
                     case 0x001E:
                         memzer.opFF1E(opcode);
                         break;
@@ -143,10 +159,15 @@ public class Core {
                     case 0x0065:
                         memzer.opFF65(opcode);
                         break;
+                    default:
+                        System.out.println("Unknown opcode: " + opcode);
+                        memzer.setPC(memzer.getPC() + 2);
+                        break;
                 }
                 break;
             default:
                 System.out.println("Unknown opcode: " + opcode);
+                memzer.setPC(memzer.getPC() + 2);
                 break;
             //todo: documenter en commentaire les opcodes
         }

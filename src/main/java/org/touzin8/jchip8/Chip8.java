@@ -49,6 +49,7 @@ public class Chip8 extends Application {
         scene.setOnKeyPressed(event -> {
             Integer keyIndex = KEY_MAP.get(event.getCode());
             if(keyIndex != null){
+                System.out.println("keypressed: " + keyIndex);
                 memzer.setKey(keyIndex, true);
             }
         });
@@ -56,6 +57,7 @@ public class Chip8 extends Application {
         scene.setOnKeyReleased(event -> {
             Integer keyIndex = KEY_MAP.get(event.getCode());
             if(keyIndex != null){
+                System.out.println("keyreleased: " + keyIndex);
                 memzer.setKey(keyIndex, false);
             }
         });
@@ -67,7 +69,9 @@ public class Chip8 extends Application {
         stage.show();
 
         Core chip8core = new Core(memzer, display);
+        //chip8core.load("roms/danm8ku.ch8");
         chip8core.load("roms/Space Invaders [David Winter].ch8");
+       // chip8core.load("roms/Cave.ch8");
         chip8core.mainLoop();
     }
 
