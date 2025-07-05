@@ -1,10 +1,17 @@
 package org.touzin8.jchip8;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListView;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.File;
 import java.util.Arrays;
 
 public class Display implements DisplayPort {
@@ -15,10 +22,22 @@ public class Display implements DisplayPort {
     private int _width = 64;
     private int _pixelSze_x;
     private int _pixelSze_y;
+    private Stage stage;
+    private FileChooser chooser = new FileChooser();
+    private Core core;
+    private String color;
+
+
+
     //int[][] frameBuffer = new int[_width][_height];
+    @FXML
+    ComboBox comboColor;
 
     @FXML
     private Canvas convaZER;
+
+    @FXML
+    private ListView listopcodes;
 
     @FXML
     private void initialize(){
@@ -28,7 +47,16 @@ public class Display implements DisplayPort {
         gc.setFill(Color.rgb(75,25,50));
         //gc.fillRect(75, 75, 100, 100);
         gc.fillRect(75, 75, _pixelSze_x, _pixelSze_y);
+        initCombo();
         //draw = new Drawer(_height, _width, _pixelSze);
+        color = "blue";
+    }
+
+    private void initCombo(){
+        comboColor.getItems().addAll("pink", "blue", "black", "green");
+        comboColor.setOnAction(event -> {
+            color = comboColor.getValue().toString();
+        });
     }
     @Override
     public void clear(int[][] frameBuffer) {
@@ -38,6 +66,10 @@ public class Display implements DisplayPort {
         draw(frameBuffer);
     }
 
+    public void setCore(Core coreZER){
+        core = coreZER;
+    }
+
     @Override
     public void draw(int[][] framebuffer) {
         System.out.println("draw");
@@ -45,13 +77,54 @@ public class Display implements DisplayPort {
             for(var x = 0; x < _width;x++){
                 if(framebuffer[x][y] == 1){
                     //x la taille du pixel pour la reso
-                    gc.setFill(Color.rgb(75,25,50));
+                    gc.setFill(Theme.getDark(color));
                     gc.fillRect(x * _pixelSze_x, y * _pixelSze_y, _pixelSze_x, _pixelSze_y);
                 }else{
-                    gc.setFill(Color.rgb(175,125,150));
+                    gc.setFill(Theme.getLight(color));
                     gc.fillRect(x * _pixelSze_x, y * _pixelSze_y, _pixelSze_x, _pixelSze_y);
                 }
             }
         }
     }
+
+    @Override
+    public void logOpcode(int opcodes, int pc){
+            String entry = (Integer.toHexString(opcodes) + "  " + pc).toString();
+            if(listopcodes.getItems().size() > 10){
+                listopcodes.getItems().removeFirst();
+            }
+        listopcodes.getItems().add(entry);
+    }
+
+    public void devTool(){
+        listopcodes.setVisible(!listopcodes.isVisible());
+    }
+
+    public void closeWindow(ActionEvent event){
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.close();
+    }
+
+    public void restartApp(ActionEvent event){
+        Chip8.resart();
+    }
+
+    public void chooseRom(ActionEvent event){
+        configureChoose(chooser);
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        File rom = chooser.showOpenDialog(stage);
+        listopcodes.getItems().removeAll();
+        core.loadSelectedRom(rom);
+
+    }
+
+    private void configureChoose(FileChooser choos){
+        choos.setTitle("Choose ROM");
+        choos.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("ch8", "*.ch8")
+        );
+    }
+
+
 }
+

@@ -66,6 +66,28 @@ public class Memory {
         }
         loadToMemory(buffer, 0x200);// 0x200-0xFFF - Program ROM and work RAM, 0x200 -> 512
     }
+    public void loadROM(File file){
+        this.memory = new byte[4096];
+        this.waitingKey = false;
+        this.PC = 0x200;
+        this.sp = 0;
+        this.IR = 0;
+        //this.opcode = 0;
+        this.fontset = new Fontset().getFontset();//j'ai sync et j'ai mis le plugin lombok
+        this.V = new byte[16];
+        this.stack = new int[16];
+        this.key = new byte[16];
+        this.drawFlag = false;
+        File readROM = file;
+        byte[] buffer;
+        try {
+            FileInputStream fis = new FileInputStream(readROM);
+            buffer = fis.readAllBytes();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        loadToMemory(buffer, 0x200);// 0x200-0xFFF - Program ROM and work RAM, 0x200 -> 512
+    }
 
     public void loadToMemory(byte[] collect, int startIndex) {
 //        for(var i = startIndex; i < fontset.length; i++){

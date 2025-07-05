@@ -1,11 +1,14 @@
 package org.touzin8.jchip8;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
@@ -13,7 +16,7 @@ public class Chip8 extends Application {
     private int frameRate;
     //private DisplayPort display = new Display();
     private Memory memzer = new Memory();
-
+    private static Stage stageZer;
     //mapping de clavier
     private static final Map<KeyCode, Integer> KEY_MAP = Map.ofEntries(
             Map.entry(KeyCode.DIGIT1, 0x1),   // 1
@@ -41,11 +44,23 @@ public class Chip8 extends Application {
 
         //keyboard
 
+        System.out.println(
+                " .----------------.  .----------------.  .----------------.  .----------------.   .----------------. \n" +
+                        "| .--------------. || .--------------. || .--------------. || .--------------. | | .--------------. |\n" +
+                        "| |     ______   | || |  ____  ____  | || |     _____    | || |   ______     | | | |     ____     | |\n" +
+                        "| |   .' ___  |  | || | |_   ||   _| | || |    |_   _|   | || |  |_   __ \\   | | | |   .' __ '.   | |\n" +
+                        "| |  / .'   \\_| | || |   | |__| |   | || |      | |     | || |    | |__) |  | | | |   | (__) |   | |\n" +
+                        "| |  | |         | || |   |  __  |   | || |      | |     | || |    |  ___/   | | | |   .`____'.   | |\n" +
+                        "| |  \\ `.___.'\\| || |  _| |  | |_  | || |     _| |_    | || |   _| |_      | | | |  | (____) |  | |\n" +
+                        "| |   `._____.'  | || | |____||____| | || |    |_____|   | || |  |_____|     | | | |  `.______.'  | |\n" +
+                        "| |              | || |              | || |              | || |              | | | |              | |\n" +
+                        "| '--------------' || '--------------' || '--------------' || '--------------' | | '--------------' |\n" +
+                        " '----------------'  '----------------'  '----------------'  '----------------'   '----------------' ");
+        System.out.println("chip8 emulator by 8touzin on github");
 
-
-
+        System.out.println("initiat FXML");
         FXMLLoader fxmlLoader = new FXMLLoader(Chip8.class.getResource("chip8.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 700, 400);
+        Scene scene = new Scene(fxmlLoader.load(), 700, 610);
         scene.setOnKeyPressed(event -> {
             Integer keyIndex = KEY_MAP.get(event.getCode());
             if(keyIndex != null){
@@ -53,7 +68,9 @@ public class Chip8 extends Application {
                 memzer.setKey(keyIndex, true);
             }
         });
+        System.out.println("initiate controller FXML");
         Display display = fxmlLoader.getController();
+
         scene.setOnKeyReleased(event -> {
             Integer keyIndex = KEY_MAP.get(event.getCode());
             if(keyIndex != null){
@@ -64,11 +81,15 @@ public class Chip8 extends Application {
         String style = getClass().getResource("darkpink.css").toExternalForm();
 
         scene.getStylesheets().add(style);
-        stage.setTitle("JCHIP8");
+       // stage.setTitle("JCHIP8");
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setResizable(false);
         stage.setScene(scene);
+        stageZer = stage;
         stage.show();
 
         Core chip8core = new Core(memzer, display);
+        display.setCore(chip8core);
         //chip8core.load("roms/danm8ku.ch8");
         chip8core.load("roms/Space Invaders [David Winter].ch8");
        // chip8core.load("roms/Cave.ch8");
@@ -78,5 +99,18 @@ public class Chip8 extends Application {
     public static void main(String[] args) {
         launch();
     }
+
+    public static void resart(){
+        Platform.runLater(()->{
+            stageZer.close();
+
+            try {
+                new Chip8().start(new Stage());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
+
 
 }

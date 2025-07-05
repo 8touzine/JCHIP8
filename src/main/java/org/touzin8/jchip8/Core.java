@@ -4,6 +4,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
+import java.io.File;
+
 public class Core {
     private final Memory memzer;
     private final DisplayPort display;
@@ -24,6 +26,10 @@ public class Core {
 
     }
 
+    public void loadSelectedRom(File rom){
+        memzer.loadROM(rom);
+    }
+
     public void mainLoop(){
         //60 par sec
         Duration frameDuration = Duration.millis(1000.0 / 60); //64Hz
@@ -34,6 +40,7 @@ public class Core {
            } //ne rien faire si il attend une touche
             for(int i = 0;i<10;i++){//sinon trop lent
                 opcode =  memzer.fetchOpcode();
+                display.logOpcode(opcode, memzer.getPC());
                 decodeOpcode(opcode);
             }
 
@@ -53,13 +60,7 @@ public class Core {
 
     /////////
     public void decodeOpcode(int opcode){
-        //composition du opcode
-        //todo: ici c'est une fonction fetch
-        ///var opcode = memory[PC] << 8 | memory[PC + 1];
 
-        //checker quel opcode: 0xX000 avec le filtre 0xF000
-//        X = (opcode & 0x0F00) >> 8;
-//        Y = (opcode & 0x00F0) >> 4;
         //todo voici le decode qui se fera dans le core
       System.out.println("pc: " + memzer.getPC() +" opcode: " + Integer.toHexString(opcode));
       //System.out.println("pc: " + memzer.getPC());
