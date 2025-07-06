@@ -36,6 +36,8 @@ Working ROM: **Space invaders** and **Cave** included in the zip.
 
 ###  Windows
 
+Get zip file in latest release
+
 Double-click `run.bat`  
 
 Or run manually:
@@ -43,7 +45,6 @@ Or run manually:
 ```bat
 java --module-path "javafx-sdk-21.0.7\lib" --add-modules javafx.controls,javafx.fxml -jar jchip8-fat-[version].jar
 ```
-Or get zip file in latest release
 
 ---
 
