@@ -77,5 +77,6 @@ GitHub: [github.com/8touzin](https://github.com/8touzin)
 
 ## License
 
-© 2025 8touzin. All rights reserved.  
-This project is private and not licensed for reuse, copying, or modification.
+MIT License
+
+Copyright (c) 2025 8touzin
