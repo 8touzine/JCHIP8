@@ -135,6 +135,9 @@ public class Display implements DisplayPort {
         configureChoose(chooser);
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         File rom = chooser.showOpenDialog(stage);
+        if(rom == null){
+            return;
+        }
         listopcodes.getItems().removeAll();
         listRegistery.getItems().removeAll();
         core.loadSelectedRom(rom);
