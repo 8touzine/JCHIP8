@@ -61,7 +61,7 @@ public class Core {
     /////////
     public void decodeOpcode(int opcode){
 
-        //todo voici le decode qui se fera dans le core
+        // called from core
       System.out.println("pc: " + memzer.getPC() +" opcode: " + Integer.toHexString(opcode));
       //System.out.println("pc: " + memzer.getPC());
         switch (opcode & 0xF000) {
@@ -170,7 +170,6 @@ public class Core {
                 System.out.println("Unknown opcode: " + opcode);
                 memzer.setPC(memzer.getPC() + 2);
                 break;
-            //todo: documenter en commentaire les opcodes
         }
 
     }

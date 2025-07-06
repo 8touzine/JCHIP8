@@ -73,7 +73,7 @@ public class Memory {
         this.sp = 0;
         this.IR = 0;
         //this.opcode = 0;
-        this.fontset = new Fontset().getFontset();//j'ai sync et j'ai mis le plugin lombok
+        this.fontset = new Fontset().getFontset();
         this.V = new byte[16];
         this.stack = new int[16];
         this.key = new byte[16];
@@ -125,7 +125,7 @@ public class Memory {
 
     private int detectCollision(int x, int y){
         //wrap
-        x &= 0x3F;// si 67 alors -> 3 ça va dessiner de l'autre coté
+        x &= 0x3F;// si 67 alors -> 3 ça va dessiner de l'autre coté (wrap)
         y &= 0x1F;
         int previous = frameBuffer[x][y]; // le pixel d'avant dans le buffer
         // le XOR pour checker les collision (1 ^ 1 = 0)
@@ -188,11 +188,10 @@ public class Memory {
         var X = (opcode & 0x0F00) >>8;
         waitingKey = true;
         awaitingRegister = X; // pour indiquer ou est-ce qu'on attend le key
-        //todo: Implimenter système de lecture de key: gestion de waitingKey et awaitingRegister
     }
 
     public void setKey(int index, boolean pressed){
-        //pour lire les touche appuyé, et utilisé si besoin (awaiting)
+        //pour lire les touches, et utilisé si besoin (awaiting)
         System.out.println("index: " + index + "pressed: " + pressed);
         key[index] = (byte)(pressed ? 1 : 0);//donc si la touche a cette index est pressé, 1
         if(waitingKey && pressed){
@@ -254,7 +253,6 @@ public class Memory {
 
     public void opCFFF(int opcode) {
         var X = (opcode & 0x0F00) >> 8;
-        // =(int)(Math.random() * 256)
         //int car & fonctionne  pas sur un double (math.random() envoi un double
         V[X] = (byte)((int)(Math.random() * 0xFF) & (opcode & 0x00FF));
         PC += 2;

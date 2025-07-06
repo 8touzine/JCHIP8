@@ -14,10 +14,8 @@ import java.util.Map;
 
 public class Chip8 extends Application {
     private int frameRate;
-    //private DisplayPort display = new Display();
     private Memory memzer = new Memory();
     private static Stage stageZer;
-    //mapping de clavier
     private static final Map<KeyCode, Integer> KEY_MAP = Map.ofEntries(
             Map.entry(KeyCode.DIGIT1, 0x1),   // 1
             Map.entry(KeyCode.DIGIT2, 0x2),   // 2
