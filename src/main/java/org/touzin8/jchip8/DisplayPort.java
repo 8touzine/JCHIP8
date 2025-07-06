@@ -6,4 +6,6 @@ public interface DisplayPort {
     void draw(int[][] framebuffer);
 
     void logOpcode(int opcode, int pc);
+
+    void logRegistery(byte[] V);
 }

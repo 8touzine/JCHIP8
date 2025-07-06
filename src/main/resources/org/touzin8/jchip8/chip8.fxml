@@ -7,19 +7,24 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 
-<AnchorPane prefHeight="610.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.touzin8.jchip8.Display">
+<AnchorPane prefHeight="610.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.touzin8.jchip8.Display">
     <children>
-        <StackPane fx:id="canvCont" layoutX="23.0" layoutY="10.0" prefHeight="386.0" prefWidth="650.0" styleClass="conv-cont">
+        <StackPane fx:id="canvCont" layoutX="23.0" layoutY="10.0" prefHeight="386.0" prefWidth="650.0"
+                   styleClass="conv-cont">
             <Canvas fx:id="convaZER" height="320.0" layoutX="47.0" layoutY="20.0" width="640.0" />
         </StackPane>
-        <Button layoutX="29.0" layoutY="427.0" mnemonicParsing="false" text="Load ROM" onAction="#chooseRom" />
-        <Button layoutX="29.0" layoutY="465.0" mnemonicParsing="false" text="Dark mode" />
-        <Button layoutX="29.0" layoutY="499.0" mnemonicParsing="false" text="Restart" onAction="#restartApp" />
-        <Button layoutX="29.0" layoutY="536.0" mnemonicParsing="false" text="Exit" onAction="#closeWindow" />
-        <Button layoutX="608.0" layoutY="396.0" mnemonicParsing="false" text="dev info" onAction="#devTool" />
-      <ListView fx:id="listopcodes" visible="false" editable="true" layoutX="248.0" layoutY="399.0" prefHeight="200.0"
-                prefWidth="200.0" />
-      <ComboBox fx:id="comboColor" layoutX="533.0" layoutY="440.0" prefWidth="150.0" promptText="Screen color"
-                styleClass="combo"/>
+        <Button layoutX="29.0" layoutY="427.0" mnemonicParsing="false" onAction="#chooseRom" text="Load ROM" />
+        <Button fx:id="breakDev" layoutX="627.0" layoutY="500.0" mnemonicParsing="false" text="Break"
+                textAlignment="RIGHT" visible="false"  onAction="#flowMan"/>
+        <Button layoutX="29.0" layoutY="465.0" mnemonicParsing="false" onAction="#restartApp" text="Restart" />
+        <Button layoutX="29.0" layoutY="500.0" mnemonicParsing="false" onAction="#closeWindow" text="Exit" />
+        <Button layoutX="614.0" layoutY="465.0" mnemonicParsing="false" onAction="#devTool" text="dev info" />
+      <ListView fx:id="listopcodes" editable="true" layoutX="248.0" layoutY="399.0" prefHeight="200.0" prefWidth="136.0"
+                visible="false" />
+      <ComboBox fx:id="comboColor" layoutX="523.0" layoutY="427.0" prefWidth="150.0" promptText="Screen color"
+                styleClass="combo" />
+      <ListView fx:id="listRegistery" editable="true" layoutX="401.0" layoutY="399.0" prefHeight="200.0"
+                prefWidth="73.0" visible="false" />
     </children>
 </AnchorPane>

@@ -1,10 +1,13 @@
 package org.touzin8.jchip8;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.paint.Color;
@@ -13,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Display implements DisplayPort {
 
@@ -34,10 +38,19 @@ public class Display implements DisplayPort {
     ComboBox comboColor;
 
     @FXML
+    Button breakDev;
+
+    @FXML
     private Canvas convaZER;
 
     @FXML
     private ListView listopcodes;
+    @FXML
+    private ListView listRegistery;
+
+    private boolean devMode = false;
+
+    ObservableList<String> registerZ = FXCollections.observableArrayList();
 
     @FXML
     private void initialize(){
@@ -50,6 +63,16 @@ public class Display implements DisplayPort {
         initCombo();
         //draw = new Drawer(_height, _width, _pixelSze);
         color = "blue";
+        initRegister();
+    }
+    private void initRegister(){
+        registerZ.setAll("V0: ", "V1: ","V2: ",
+                "V3: ", "V4: ", "V5: ", "V6: ",
+                "V7: ", "V8: ", "V9: ",
+                "VA: ", "VB: ", "VC: ",
+                "VD: ", "VE: ", "VF: ");
+        listRegistery.setItems(registerZ);
+
     }
 
     private void initCombo(){
@@ -83,15 +106,20 @@ public class Display implements DisplayPort {
 
     @Override
     public void logOpcode(int opcodes, int pc){
+        if(devMode) {
             String entry = (Integer.toHexString(opcodes) + "  " + pc).toString();
-            if(listopcodes.getItems().size() > 10){
+            if (listopcodes.getItems().size() > 10) {
                 listopcodes.getItems().removeFirst();
             }
-        listopcodes.getItems().add(entry);
+            listopcodes.getItems().add(entry);
+        }
     }
 
     public void devTool(){
         listopcodes.setVisible(!listopcodes.isVisible());
+        breakDev.setVisible(!breakDev.isVisible());
+        listRegistery.setVisible(!listRegistery.isVisible());
+        devMode = !devMode;
     }
 
     public void closeWindow(ActionEvent event){
@@ -108,8 +136,27 @@ public class Display implements DisplayPort {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         File rom = chooser.showOpenDialog(stage);
         listopcodes.getItems().removeAll();
+        listRegistery.getItems().removeAll();
         core.loadSelectedRom(rom);
 
+    }
+
+    public void flowMan(ActionEvent event){
+        Button clicked = (Button) event.getSource();
+        if(Objects.equals(clicked.getText().toString(), "Break")){
+            pauseFlow();
+            clicked.setText("Resume");
+        }else if(Objects.equals(clicked.getText(), "Resume")){
+            resumeFlow();
+            clicked.setText("Break");
+        }
+    }
+
+    private void pauseFlow(){
+        core.pauseLoop();
+    }
+    public void resumeFlow(){
+        core.resumeLoop();
     }
 
     private void configureChoose(FileChooser choos){
@@ -118,6 +165,17 @@ public class Display implements DisplayPort {
                 new FileChooser.ExtensionFilter("ch8", "*.ch8")
         );
     }
+
+    @Override
+    public void logRegistery(byte[] V){
+        if (devMode) {
+            for(var i= 0; i < V.length; i++){
+                registerZ. set(i, "V(" + i + "): " + (V[i] & 0xFF));
+            }
+        }
+        //ObservableList<String> registerZ = FXCollections.observableArrayList();
+    }
+
 
 
 }

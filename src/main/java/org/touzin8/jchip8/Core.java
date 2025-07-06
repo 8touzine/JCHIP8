@@ -41,6 +41,7 @@ public class Core {
             for(int i = 0;i<10;i++){//sinon trop lent
                 opcode =  memzer.fetchOpcode();
                 display.logOpcode(opcode, memzer.getPC());
+                display.logRegistery(memzer.getV());
                 decodeOpcode(opcode);
             }
 
@@ -54,8 +55,14 @@ public class Core {
     timeline.play();
     }
 
-    public void stop(){
-    timeline.stop();
+    public void pauseLoop(){
+        System.out.println("pause loop");
+        timeline.pause();
+    }
+
+    public void resumeLoop(){
+        System.out.println("resume loop");
+        timeline.play();
     }
 
     /////////
