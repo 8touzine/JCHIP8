@@ -97,13 +97,14 @@ Run with JavaFX using `--module-path`.
 
 ---
 
-## 🧑‍💻 Author
+## Author
 
 👤 **8touzin**  
 GitHub: [github.com/8touzin](https://github.com/8touzin)
 
 ---
 
-## 📝 License
+## License
 
-Free for personal and educational use.
+© 2025 8touzin. All rights reserved.  
+This project is private and not licensed for reuse, copying, or modification.
