@@ -83,4 +83,4 @@ GitHub: [github.com/8touzin](https://github.com/8touzin)
 
 MIT License
 
-Copyright (c) 2025 8touzin
+Copyright (c) 2025 8touzine
