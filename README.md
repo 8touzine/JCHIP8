@@ -31,7 +31,7 @@ A **CHIP-8** emulator written in Java by [myself](https://github.com/8touzine).
 
 ##  How to run the emulator
 
-This version is may not work with every ch8 ROM **yet**. 
+This version may not work with every ch8 ROM **yet**. 
 Tested ROM: **Space invaders** and **Cave** included in the zip.
 
 ###  Windows
