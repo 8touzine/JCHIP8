@@ -12,7 +12,7 @@ A **CHIP-8** emulator written in Java by [myself](https://github.com/8touzine).
 - Clean and styled JavaFX interface
 - Load classic CHIP-8 ROMs
 - Graphics display, keyboard input, sound, and timers
-- Modular Java application (Java modules)
+- Fetch and decode of Chip8 opcodes 
 - Standalone executable JAR build
 - debug functionalities
 
