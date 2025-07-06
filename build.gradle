@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'org.touzin8'
-version '1.0-SNAPSHOT'
+version '1.0'
 
 repositories {
     mavenCentral()
@@ -47,13 +47,57 @@ test {
 }
 
 jlink {
+    // Génère un zip de l'image runtime pour distribution
     imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")
-    options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
+
+    // Options jlink pour optimiser l'image
+    options = [
+            '--strip-debug',       // supprime infos debug
+            '--compress', '2',     // compresse l'image
+            '--no-header-files',
+            '--no-man-pages'
+    ]
+
+    // Nom de l'exécutable généré
     launcher {
-        name = 'app'
+        name = 'jchip8'
     }
+
+    // Configuration jpackage (packaging en installateur natif)
+    jpackage {
+        installerType = 'exe'          // pour Windows, adapte selon OS : dmg, pkg, deb...
+        installerOptions = [
+                '--win-menu',              // crée une entrée menu démarrer Windows
+                '--win-shortcut'           // crée un raccourci bureau Windows
+        ]
+        // Tu peux ajouter ici :
+        // installerName = 'JCHIP8-Emulator'  // nom de l'installateur
+        // appVersion = '1.0.0'                // version affichée
+    }
+
+
 }
 
 jlinkZip {
     group = 'distribution'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': application.mainClass.get()
+        )
+    }
+
+    from {
+        configurations.runtimeClasspath.findAll {
+            !it.name.startsWith("javafx") &&
+                    !it.name.toLowerCase().contains("lombok")
+        }.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+
+    archiveBaseName.set("jchip8-fat")
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
