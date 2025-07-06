@@ -1,7 +1,7 @@
 
 # JCHIP8 Emulator
 
-A **CHIP-8** emulator written in Java by [8touzin](https://github.com/8touzin).
+A **CHIP-8** emulator written in Java by [myself](https://github.com/8touzin).
 
 
 ![screenshot](JCHIP8.PNG)
@@ -14,6 +14,7 @@ A **CHIP-8** emulator written in Java by [8touzin](https://github.com/8touzin).
 - Graphics display, keyboard input, sound, and timers
 - Modular Java application (Java modules)
 - Standalone executable JAR build
+- debug functionalities
 
 ---
 
@@ -36,9 +37,12 @@ Double-click `run.bat`
 Or run manually:
 
 ```bat
-java --module-path "javafx-sdk-21.0.7\lib" --add-modules javafx.controls,javafx.fxml -jar jchip8-fat-1.0.jar
+java --module-path "javafx-sdk-21.0.7\lib" --add-modules javafx.controls,javafx.fxml -jar jchip8-fat-[version].jar
 ```
+Or get zip file in latest release
+
 ---
+
 
 ##  Loading a ROM
 
