@@ -20,16 +20,16 @@ public class Chip8 extends Application {
             Map.entry(KeyCode.DIGIT1, 0x1),   // 1
             Map.entry(KeyCode.DIGIT2, 0x2),   // 2
             Map.entry(KeyCode.DIGIT3, 0x3),   // 3
-            Map.entry(KeyCode.DIGIT4, 0xC),   // 4 (à droite de 3)
-            Map.entry(KeyCode.A, 0x4),         // A (au lieu de Q en QWERTY)
-            Map.entry(KeyCode.Z, 0x5),         // Z (au lieu de W)
-            Map.entry(KeyCode.E, 0x6),         // E (idem)
-            Map.entry(KeyCode.R, 0xD),         // R (idem)
-            Map.entry(KeyCode.Q, 0x7),         // Q (au lieu de A)
+            Map.entry(KeyCode.DIGIT4, 0xC),   // 4
+            Map.entry(KeyCode.A, 0x4),         // A
+            Map.entry(KeyCode.Z, 0x5),         // Z
+            Map.entry(KeyCode.E, 0x6),         // E
+            Map.entry(KeyCode.R, 0xD),         // R
+            Map.entry(KeyCode.Q, 0x7),         // Q
             Map.entry(KeyCode.S, 0x8),         // S
             Map.entry(KeyCode.D, 0x9),         // D
             Map.entry(KeyCode.F, 0xE),         // F
-            Map.entry(KeyCode.W, 0xA),         // W (au lieu de Z)
+            Map.entry(KeyCode.W, 0xA),         // W
             Map.entry(KeyCode.X, 0x0),         // X
             Map.entry(KeyCode.C, 0xB),         // C
             Map.entry(KeyCode.V, 0xF)          // V

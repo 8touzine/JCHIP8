@@ -58,13 +58,7 @@ public class Display implements DisplayPort {
             color = comboColor.getValue().toString();
         });
     }
-    @Override
-    public void clear(int[][] frameBuffer) {
-        for(int [] row: frameBuffer){
-            Arrays.fill(row, 0);//pour chaque rander grid[x] on remplit tout de 0
-        }
-        draw(frameBuffer);
-    }
+
 
     public void setCore(Core coreZER){
         core = coreZER;

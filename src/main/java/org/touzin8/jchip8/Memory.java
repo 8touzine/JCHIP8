@@ -43,7 +43,7 @@ public class Memory {
         this.sp = 0;
         this.IR = 0;
         //this.opcode = 0;
-        this.fontset = new Fontset().getFontset();//j'ai sync et j'ai mis le plugin lombok
+        this.fontset = new Fontset().getFontset();
         this.V = new byte[16];
         this.stack = new int[16];
         this.key = new byte[16];
@@ -104,8 +104,6 @@ public class Memory {
         int low = memory[PC+1] & 0xFF;
         return (high << 8) | low;
     }
-    //todo: convertir en fonction par opcode et deplacer le switch dans le core
-
 
     public void opFF65(int opcode) {
         var X = (opcode & 0x0F00) >>8;
@@ -141,11 +139,10 @@ public class Memory {
         int y = V[(opcode & 0x00F0) >> 4] & 0xFF;
         int n  = (opcode & 0x000F);
         int[][] buffer = frameBuffer;
-        //todo impiment DXYN pour affichier la sprint a (X,Y) et a N pixel d'hauteur (framebuffer dans onenote)
-        V[0xF] = 0; //todo comprendre (collision)
+        V[0xF] = 0;
         System.out.println("Draw at x= " +x + "y= " + y +" n= " + n + "  IR= " + IR);
         for(var row = 0; row < n; row++){ //la hauteur
-            var spriteByte = memory[IR + row] & 0xFF; // IR ou on se trouve(fonctionnement opcode)
+            var spriteByte = memory[IR + row] & 0xFF; // IR ou on se trouve( opcode)
             // exemple de sprite (row) : Sprite : 0b11110000  (donc 4 pixels allumés à gauche)
             for(var bit = 0;bit < 8; bit++){
                 if((spriteByte & (0x80 >> bit)) != 0){
@@ -230,7 +227,7 @@ public class Memory {
     private void beeping(){
         java.awt.Toolkit.getDefaultToolkit().beep();
     }
-    //todo relire la doc
+
     public void opEFFF(int opcode) {
         var X = (opcode & 0x0F00) >>8;
         switch (opcode & 0x00FF){

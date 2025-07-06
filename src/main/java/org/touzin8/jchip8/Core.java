@@ -66,7 +66,6 @@ public class Core {
       //System.out.println("pc: " + memzer.getPC());
         switch (opcode & 0xF000) {
             case 0x0000:
-                // y a 2 opcode qui commencnt avec 0x0 -> 0x00E0 et 0x00EE
                 switch (opcode & 0x000F){
                     case 0x0000:
                         //clear screen
