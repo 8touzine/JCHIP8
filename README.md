@@ -74,7 +74,7 @@ Run with JavaFX using `--module-path`.
 
 ## Author
 
-👤 **8touzin**  
+👤 **8touzine**  
 GitHub: [github.com/8touzin](https://github.com/8touzine)
 
 ---
