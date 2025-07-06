@@ -3,6 +3,8 @@
 
 A **CHIP-8** emulator written in **Java ** by [8touzin](https://github.com/8touzin).
 
+
+![screenshot](JCHIP8.PNG)
 ---
 
 ##  Features
