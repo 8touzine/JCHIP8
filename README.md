@@ -1,7 +1,7 @@
 
 # JCHIP8 Emulator
 
-A **CHIP-8** emulator written in Java by [myself](https://github.com/8touzin).
+A **CHIP-8** emulator written in Java by [myself](https://github.com/8touzine).
 
 
 ![screenshot](JCHIP8.PNG)
@@ -75,7 +75,7 @@ Run with JavaFX using `--module-path`.
 ## Author
 
 👤 **8touzin**  
-GitHub: [github.com/8touzin](https://github.com/8touzin)
+GitHub: [github.com/8touzin](https://github.com/8touzine)
 
 ---
 
