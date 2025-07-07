@@ -34,6 +34,14 @@ A **CHIP-8** emulator written in Java by [myself](https://github.com/8touzine).
 This version may not work with every ch8 ROM **yet**. 
 Tested ROM: **Space invaders** and **Cave** included in the zip.
 
+Keys:
+
+1 2 3 4 
+A Z E R
+Q S D F
+W X C C
+
+
 ###  Windows
 
 Get zip file in latest release
