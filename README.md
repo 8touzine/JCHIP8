@@ -23,7 +23,7 @@ A **CHIP-8** emulator written in Java by [myself](https://github.com/8touzine).
 - **Java 21** (JDK or JRE)  
    [Download from Adoptium](https://adoptium.net)
 
-- **JavaFX SDK 21**  
+- **JavaFX SDK 21 (optional: included in release zip**  
    [Download here](https://gluonhq.com/products/javafx/)
 
 ---
