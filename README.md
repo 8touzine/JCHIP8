@@ -36,7 +36,7 @@ Tested ROM: **Space invaders** and **Cave** included in the zip.
 
 Keys:
 
-1 2 3 4 
+1 2 3 4
 A Z E R
 Q S D F
 W X C C
