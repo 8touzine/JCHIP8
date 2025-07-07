@@ -34,15 +34,6 @@ A **CHIP-8** emulator written in Java by [myself](https://github.com/8touzine).
 This version may not work with every ch8 ROM **yet**. 
 Tested ROM: **Space invaders** and **Cave** included in the zip.
 
-Keys:
-
-1 2 3 4
-
-A Z E R
-
-Q S D F
-
-W X C C
 
 
 ###  Windows
@@ -64,6 +55,18 @@ java --module-path "javafx-sdk-21.0.7\lib" --add-modules javafx.controls,javafx.
 
 1. Place your `.ch8` files in the `roms/` folder
 2. The emulator can load a default ROM or open a file chooser to select a ROM
+
+Keys:
+
+1 2 3 4
+
+A Z E R
+
+Q S D F
+
+W X C C
+
+
 
 ---
 
