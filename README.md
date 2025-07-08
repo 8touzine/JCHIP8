@@ -53,7 +53,7 @@ java --module-path "javafx-sdk-21.0.7\lib" --add-modules javafx.controls,javafx.
 
 ##  Loading a ROM
 
-1. Place your `.ch8` files in the `roms/` folder
+1. Place your `.ch8` files in the `roms/` folder or anywhere else.
 2. The emulator can load a default ROM or open a file chooser to select a ROM
 
 Keys:
