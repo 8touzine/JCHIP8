@@ -58,13 +58,13 @@ java --module-path "javafx-sdk-21.0.7\lib" --add-modules javafx.controls,javafx.
 
 Keys:
 
-1 2 3 4
+<kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> <kbd>4</kbd>
 
-A Z E R
+<kbd>A</kbd> <kbd>A</kbd> <kbd>E</kbd> <kbd>R</kbd>
 
-Q S D F
+<kbd>Q</kbd> <kbd>S</kbd> <kbd>D</kbd> <kbd>F</kbd>
 
-W X C C
+<kbd>W</kbd> <kbd>X</kbd> <kbd>C</kbd> <kbd>V</kbd>
 
 
 
