@@ -60,7 +60,7 @@ Keys:
 
 <kbd>1</kbd> <kbd>2</kbd> <kbd>3</kbd> <kbd>4</kbd>
 
-<kbd>A</kbd> <kbd>A</kbd> <kbd>E</kbd> <kbd>R</kbd>
+<kbd>A</kbd> <kbd>Z</kbd> <kbd>E</kbd> <kbd>R</kbd>
 
 <kbd>Q</kbd> <kbd>S</kbd> <kbd>D</kbd> <kbd>F</kbd>
 
